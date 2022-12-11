@@ -1,3 +1,5 @@
+package com.example.tp1_appkotlin
+
 data class FilmList(
     val page: Int,
     val results: List<Film>,
@@ -6,6 +8,7 @@ data class FilmList(
 )
 
 data class Film(
+    val isFav: Boolean = false,
     val adult: Boolean = false,
     val backdrop_path: String = "",
     val genre_ids: List<Int> = listOf(),
@@ -30,6 +33,7 @@ data class SerieList(
 )
 
 data class Serie(
+    val isFav: Boolean = false,
     val adult: Boolean = false,
     val backdrop_path: String = "",
     val first_air_date: String = "",
@@ -55,6 +59,7 @@ data class ActeurList(
 )
 
 data class Acteur(
+    val isFav: Boolean = false,
     val adult: Boolean,
     val gender: Int,
     val id: Int,
@@ -68,6 +73,7 @@ data class Acteur(
 )
 
 data class ActeurKnownFor(
+    val isFav: Boolean = false,
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,
@@ -135,20 +141,6 @@ data class CastTV(
     val known_for_department: String,
     val name: String,
     val order: Int,
-    val original_name: String,
-    val popularity: Double,
-    val profile_path: String
-)
-
-data class CrewTV(
-    val adult: Boolean,
-    val credit_id: String,
-    val department: String,
-    val gender: Int,
-    val id: Int,
-    val job: String,
-    val known_for_department: String,
-    val name: String,
     val original_name: String,
     val popularity: Double,
     val profile_path: String

@@ -1,6 +1,6 @@
 package com.example.tp1_appkotlin
 
-class Repository(private val tmdbAPI: TmdbAPI) {
+class Repository(private val tmdbAPI: TmdbAPI, private val dbFilm: FilmDao) {
     private val apikey = "d2ee8f9a0abe429c115a40452040c23a"
     val language = "fr"
 
@@ -18,4 +18,26 @@ class Repository(private val tmdbAPI: TmdbAPI) {
 
     //--------------------Acteurs-----------------------//
     suspend fun lastacteurs() = tmdbAPI.lastacteurs(api_key = apikey, language = language).results
+
+
+
+    //--------------------DB-----------------------//
+
+    //--------------------FILM-----------------------//
+    suspend fun getFavFilms() = dbFilm.getFavFilms()
+    suspend fun notFavFilm(id: Int) = dbFilm.deleteFilm(id)
+    suspend fun isFavFilm(film: Film) = dbFilm.insertFilm(FilmEntity(fiche = film, id = film.id.toString()))
+
+    //--------------------SERIE-----------------------//
+    suspend fun getFavSeries() = dbFilm.getFavSeries()
+    suspend fun notFavSerie(id: Int) = dbFilm.deleteSerie(id)
+    suspend fun isFavSerie(serie: Serie) = dbFilm.insertSerie(SerieEntity(fiche = serie, id = serie.id.toString()))
+
+    //--------------------ACTEUR-----------------------//
+    suspend fun getFavActeurs() = dbFilm.getFavActeurs()
+    suspend fun notFavActeur(id: Int) = dbFilm.deleteActeur(id)
+    suspend fun isFavActeur(acteur: Acteur) = dbFilm.insertActeur(ActeurEntity(fiche = acteur, id = acteur.id.toString()))
+
+
+
 }

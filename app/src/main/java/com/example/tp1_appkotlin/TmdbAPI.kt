@@ -1,15 +1,5 @@
 package com.example.tp1_appkotlin
-import Acteur
-import ActeurList
-import CreditsMovie
-import CreditsSerie
-import Film
-import FilmList
-import Serie
-import SerieList
-import kotlinx.coroutines.flow.MutableStateFlow
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.Retrofit
+
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

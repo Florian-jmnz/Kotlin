@@ -10,18 +10,16 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Call
 import androidx.compose.material.icons.rounded.Email
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.tp1_appkotlin.ui.theme.TP1AppKotlinTheme
 
 
 @Composable
@@ -50,16 +48,19 @@ fun contact(tel: String, mail: String) {
 
 @Composable
 fun presentation() {
-    Text(text = "Alternant CPAM Haute-Garonne et étudiant LP DReAM")
+        Text(
+            text = "Alternant CPAM Haute-Garonne et étudiant LP DReAM",
+            textAlign = TextAlign.Center
+            )
 }
 
 @Composable
 fun monimage() {
     Image(
-        painterResource(R.drawable.behere),
+        painterResource(R.drawable.profil),
         contentDescription = "BeHere",
         modifier = Modifier
-            .size(200.dp)
+            .size(200.dp, 200.dp)
             .clip(RoundedCornerShape(1000.dp))
     )
 }
@@ -109,12 +110,18 @@ fun ProfileScreen(windowClass: WindowSizeClass, navController: NavController) {
                     nomPrenom()
                     presentation()
                 }
-                Column(
-                    modifier = Modifier.padding(10.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    contact("0634651934", "florian.jimenez@etu.iut-tlse3.fr")
-                    monButton(navController)
+                Column(modifier = Modifier.padding(10.dp),horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        horizontalAlignment = Alignment.Start
+                    ) {
+                        contact("0634651934", "florian.jimenez@etu.iut-tlse3.fr")
+                    }
+                    Column(
+                        modifier = Modifier.padding(0.dp,25.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        monButton(navController)
+                    }
                 }
             }
         }

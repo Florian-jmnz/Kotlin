@@ -1,7 +1,5 @@
 package com.example.tp1_appkotlin
 
-import MainViewModel
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
