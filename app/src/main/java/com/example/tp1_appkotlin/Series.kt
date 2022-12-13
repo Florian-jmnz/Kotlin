@@ -1,6 +1,5 @@
 package com.example.tp1_appkotlin
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -9,7 +8,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -44,11 +42,14 @@ fun Series(viewModel: MainViewModel, navController: NavController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp)
+                            .height(300.dp)
                             .clickable { navController.navigate("detailSerie/${serie.id}" ) },
                         elevation = 20.dp
                     ) {
                             Column(
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier
+                                    .background(Color.Black)
                             ) {
                                 Box(modifier = Modifier.height(200.dp)) {
                                     AsyncImage(
@@ -59,7 +60,7 @@ fun Series(viewModel: MainViewModel, navController: NavController) {
                                     Box(
                                         modifier = Modifier
                                             .fillMaxSize()
-                                            .padding(12.dp),
+                                            .padding(10.dp),
                                         contentAlignment = Alignment.TopEnd
                                     ) {
                                         IconButton(
@@ -76,7 +77,7 @@ fun Series(viewModel: MainViewModel, navController: NavController) {
                                             }
                                         ) {
                                             if (serie.isFav || favSeries.any { isFavSerie ->
-                                                    isFavSerie.id == serie.id.toString();
+                                                    isFavSerie.id == serie.id.toString()
                                                 }) {
                                                 Icon(
                                                     Icons.Filled.Favorite,
@@ -88,52 +89,65 @@ fun Series(viewModel: MainViewModel, navController: NavController) {
                                                     Icons.Filled.FavoriteBorder,
                                                     "favorite",
                                                     tint = Color(0xFFCE1515)
-
                                                 )
                                             }
                                         }
                                     }
                                 }
-                                Text(
-                                    text = serie.name,
-                                    fontWeight = FontWeight.W500,
-                                    textAlign = TextAlign.Center,
-                                    color = Color.White,
+                                Box(
                                     modifier = Modifier
-                                        .background(color = Color.Black)
-                                        .width(200.dp)
-                                        .padding(2.dp),
-                                )
+                                        .height(100.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Column(
+                                        modifier = Modifier
+                                            .padding(0.dp)
+                                            .fillMaxWidth()
+                                            .fillMaxHeight(),
+
+                                        verticalArrangement = Arrangement.SpaceAround
+                                    ) {
+                                        Text(
+                                            text = serie.name,
+                                            fontWeight = FontWeight.W500,
+                                            textAlign = TextAlign.Center,
+                                            color = Color.White,
+                                            modifier = Modifier
+                                                .background(color = Color.Black)
+                                                .width(200.dp)
+                                                .padding(2.dp),
+                                        )
+                                    }
+                                }
                         }
                     }
                     )
         }
     }
 }
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun FavorisSeries(viewModel: MainViewModel, navController: NavController) {
     val series by viewModel.favSeries.collectAsState()
     val favSeries by viewModel.favSeries.collectAsState()
     viewModel.getSeriesInitiales()
-    LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 150.dp), modifier = Modifier.padding(0.dp,0.dp,0.dp,50.dp)) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 150.dp),
+        modifier = Modifier.padding(0.dp,0.dp,0.dp,50.dp)
+    ) {
         items(series) { serie ->
             (
                     Card(
-                        onClick = {
-                            Log.i("ID FOCUSED", serie.id.toString())
-                            navController.navigate("detailSerie/${serie.id}" )
-                        },
                         modifier = Modifier
                             .focusable()
                             .padding(10.dp)
-                            .clickable { },
-                        elevation = 10.dp
+                            .height(300.dp)
+                            .clickable { navController.navigate("detailSerie/${serie.id}") },
+                        elevation = 20.dp
                     ) {
                         Column(
                             modifier = Modifier
                                 .padding(0.dp)
+                                .background(Color.Black)
                                 .fillMaxWidth()
                                 .fillMaxHeight(),
                             horizontalAlignment = Alignment.CenterHorizontally
@@ -147,7 +161,7 @@ fun FavorisSeries(viewModel: MainViewModel, navController: NavController) {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
-                                        .padding(12.dp),
+                                        .padding(10.dp),
                                     contentAlignment = Alignment.TopEnd
                                 ) {
                                     IconButton(
@@ -160,7 +174,7 @@ fun FavorisSeries(viewModel: MainViewModel, navController: NavController) {
                                         }
                                     ) {
                                         if (serie.fiche.isFav || favSeries.any { isFavSerie ->
-                                                isFavSerie.id == serie.id;
+                                                isFavSerie.id == serie.id
                                             }) {
                                             Icon(
                                                 Icons.Filled.Favorite,
@@ -177,6 +191,19 @@ fun FavorisSeries(viewModel: MainViewModel, navController: NavController) {
                                     }
                                 }
                             }
+                            Box(
+                                modifier = Modifier
+                                    .height(100.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(0.dp)
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(),
+
+                                    verticalArrangement = Arrangement.SpaceAround
+                                ) {
                                     Text(
                                         text = serie.fiche.name,
                                         fontWeight = FontWeight.W500,
@@ -187,9 +214,10 @@ fun FavorisSeries(viewModel: MainViewModel, navController: NavController) {
                                             .width(200.dp)
                                             .padding(2.dp),
                                     )
+                                }
+                            }
                         }
-                    }
-                    )
+                    })
         }
     }
 }

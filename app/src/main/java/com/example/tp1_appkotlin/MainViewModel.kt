@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repo: Repository): ViewModel() {
+
     val movies = MutableStateFlow<List<Film>>(listOf())
     val detailMovie = MutableStateFlow(Film())
     val creditsMovie = MutableStateFlow<List<Cast>>(listOf())
@@ -20,35 +21,30 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
     val detailSerie = MutableStateFlow(Serie())
     val favSeries = MutableStateFlow<List<SerieEntity>>(listOf())
 
-
     val acteurs = MutableStateFlow<List<Acteur>>(listOf())
     val favActeurs = MutableStateFlow<List<ActeurEntity>>(listOf())
 
-
+    //___________________Films___________________//
     fun getFilmsInitiaux() {
         viewModelScope.launch {
             movies.value = repo.lastMovies()
         }
     }
-
     fun searchFilms(search: String) {
         viewModelScope.launch {
             movies.value = repo.searchFilms(search)
         }
     }
-
     fun getDetailFilm(id: String) {
         viewModelScope.launch {
             detailMovie.value = repo.detailFilm(id)
         }
     }
-
     fun getCreditsFilm(id: String) {
         viewModelScope.launch {
             creditsMovie.value = repo.creditsFilm(id)
         }
     }
-
     fun getFavFilms(){
         viewModelScope.launch {
             favMovies.value = repo.getFavFilms()
@@ -56,12 +52,12 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
     }
     fun addFavFilm(movie: Film){
         viewModelScope.launch {
-            repo.isFavFilm(movie);
+            repo.isFavFilm(movie)
             val favMovies = repo.getFavFilms()
             val FilmsList = mutableListOf<Film>()
             movies.value.map { movie ->
                 if(favMovies.any{isFavMovie ->
-                        isFavMovie.id == movie.id.toString();
+                        isFavMovie.id == movie.id.toString()
                     }){
                     val newFavMovie = movie.copy(isFav = true)
                     FilmsList.add(newFavMovie)
@@ -74,10 +70,9 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
             getFavFilms()
         }
     }
-
     fun deleteFavFilm(movie: Film){
         viewModelScope.launch {
-            repo.notFavFilm(movie.id);
+            repo.notFavFilm(movie.id)
             val favMovies = repo.getFavFilms()
 
             val FilmsList = mutableListOf<Film>()
@@ -98,31 +93,27 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
         }
     }
 
-
+    //___________________Series___________________//
     fun getSeriesInitiales() {
         viewModelScope.launch {
             series.value = repo.lastseries()
         }
     }
-
     fun searchSeries(search: String) {
         viewModelScope.launch {
             series.value = repo.searchseries(search)
         }
     }
-
     fun getDetailSerie(id: String) {
         viewModelScope.launch {
             detailSerie.value = repo.detailSerie(id)
         }
     }
-
     fun getCreditsSerie(id: String) {
         viewModelScope.launch {
             creditsSerie.value = repo.creditsSerie(id)
         }
     }
-
     fun getFavSeries(){
         viewModelScope.launch {
             favSeries.value = repo.getFavSeries()
@@ -130,12 +121,12 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
     }
     fun addFavSerie(serie: Serie){
         viewModelScope.launch {
-            repo.isFavSerie(serie);
+            repo.isFavSerie(serie)
             val favSeries = repo.getFavSeries()
             val SeriesList = mutableListOf<Serie>()
             series.value.map { serie ->
                 if(favSeries.any{isFavSerie ->
-                        isFavSerie.id == serie.id.toString();
+                        isFavSerie.id == serie.id.toString()
                     }){
                     val newFavSerie = serie.copy(isFav = true)
                     SeriesList.add(newFavSerie)
@@ -143,15 +134,13 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
                     SeriesList.add(serie)
                 }
             }
-            Log.i("NEW FAV", favSeries.toString())
             series.value = SeriesList
             getFavSeries()
         }
     }
-
     fun deleteFavSerie(serie: Serie){
         viewModelScope.launch {
-            repo.notFavSerie(serie.id);
+            repo.notFavSerie(serie.id)
             val favSeries = repo.getFavSeries()
 
             val SeriesList = mutableListOf<Serie>()
@@ -165,35 +154,31 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
                     SeriesList.add(serie.copy(isFav = false))
                 }
             }
-            Log.i("DELETED FAV", favSeries.toString())
-
             series.value = SeriesList
             getFavSeries()
         }
     }
 
 
-
+    //___________________Acteurs___________________//
     fun getActeursInitiaux() {
         viewModelScope.launch {
             acteurs.value = repo.lastacteurs()
         }
     }
-
     fun getFavActeurs(){
         viewModelScope.launch {
             favActeurs.value = repo.getFavActeurs()
         }
     }
-
     fun addFavActeur(acteur: Acteur){
         viewModelScope.launch {
-            repo.isFavActeur(acteur);
+            repo.isFavActeur(acteur)
             val favActeurs = repo.getFavActeurs()
             val ActeursList = mutableListOf<Acteur>()
             acteurs.value.map { acteur ->
                 if(favActeurs.any{isFavActeur ->
-                        isFavActeur.id == acteur.id.toString();
+                        isFavActeur.id == acteur.id.toString()
                     }){
                     val newFavActeur = acteur.copy(isFav = true)
                     ActeursList.add(newFavActeur)
@@ -206,10 +191,9 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
             getFavActeurs()
         }
     }
-
     fun deleteFavActeur(acteur: Acteur){
         viewModelScope.launch {
-            repo.notFavActeur(acteur.id);
+            repo.notFavActeur(acteur.id)
             val favActeurs = repo.getFavActeurs()
 
             val ActeursList = mutableListOf<Acteur>()
@@ -223,13 +207,12 @@ class MainViewModel @Inject constructor(private val repo: Repository): ViewModel
                     ActeursList.add(acteur.copy(isFav = false))
                 }
             }
-            Log.i("DELETED FAV", favActeurs.toString())
             acteurs.value = ActeursList
             getFavActeurs()
         }
     }
 
-
+    //___________________Initialisations___________________//
     init{
         getFavFilms()
         getFavSeries()

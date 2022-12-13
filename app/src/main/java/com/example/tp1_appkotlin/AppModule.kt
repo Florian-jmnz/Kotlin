@@ -2,7 +2,6 @@ package com.example.tp1_appkotlin
 
 import android.content.Context
 import androidx.room.Room
-import com.example.tp1_appkotlin.FilmDao
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -22,8 +21,6 @@ object AppModule {
     @Provides
     fun providerConverters() : Converters {
         val moshi = Moshi.Builder().build()
-        // remplacer ici Converters, par le nom que vous avez donné à votre classe
-        // convertisseur de types.
         return Converters(moshi)
     }
 

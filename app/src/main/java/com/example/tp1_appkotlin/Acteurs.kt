@@ -1,6 +1,5 @@
 package com.example.tp1_appkotlin
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -9,7 +8,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -24,11 +22,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 
 @Composable
-fun Acteurs(viewModel: MainViewModel, navController: NavController) {
+fun Acteurs(viewModel: MainViewModel) {
     val acteurs by viewModel.acteurs.collectAsState()
     val favActeurs by viewModel.favActeurs.collectAsState()
 
@@ -44,11 +41,13 @@ fun Acteurs(viewModel: MainViewModel, navController: NavController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp)
-                            .clickable { },
+                            .height(300.dp),
                         elevation = 20.dp
                     ) {
                         Column(
-                            horizontalAlignment = Alignment.CenterHorizontally
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            modifier = Modifier
+                                .background(Color.Black)
                         ) {
                             Box(modifier = Modifier.height(200.dp)) {
                                 AsyncImage(
@@ -76,50 +75,66 @@ fun Acteurs(viewModel: MainViewModel, navController: NavController) {
                                         }
                                     ) {
                                         if (acteur.isFav || favActeurs.any { isFavActeur ->
-                                                isFavActeur.id == acteur.id.toString();
+                                                isFavActeur.id == acteur.id.toString()
                                             }) {
                                             Icon(
                                                 Icons.Filled.Favorite,
                                                 "favorite",
-                                                tint = Color(0xFFCE1515)
+                                                tint = Color.Red
                                             )
                                         } else {
                                             Icon(
                                                 Icons.Filled.FavoriteBorder,
                                                 "favorite",
-                                                tint = Color(0xFFCE1515)
-
+                                                tint = Color.Red
                                             )
                                         }
                                     }
                                 }
                             }
-                            Text(
-                                text = acteur.name,
-                                fontWeight = FontWeight.W500,
-                                textAlign = TextAlign.Center,
-                                color = Color.White,
+                            Box(
                                 modifier = Modifier
-                                    .background(color = Color.Black)
-                                    .width(200.dp)
-                                    .padding(2.dp),
-                            )
+                                    .height(100.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(0.dp)
+                                        .fillMaxWidth()
+                                        .fillMaxHeight(),
 
+                                    verticalArrangement = Arrangement.SpaceAround
+                                ) {
+                                    Text(
+                                        text = acteur.name,
+                                        fontWeight = FontWeight.W500,
+                                        textAlign = TextAlign.Center,
+                                        color = Color.White,
+                                        modifier = Modifier
+                                            .background(color = Color.Black)
+                                            .width(200.dp)
+                                            .padding(2.dp),
+                                    )
+                                }
+                            }
                         }
-                    }
-                    )
+                    })
         }
     }
 }
 
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun FavorisActeurs(viewModel: MainViewModel, navController: NavController) {
+fun FavorisActeurs(viewModel: MainViewModel) {
+
     val acteurs by viewModel.favActeurs.collectAsState()
     val favActeurs by viewModel.favActeurs.collectAsState()
+
     viewModel.getActeursInitiaux()
-    LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 150.dp), modifier = Modifier.padding(0.dp,0.dp,0.dp,50.dp)) {
+
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 150.dp),
+        modifier = Modifier.padding(0.dp,0.dp,0.dp,50.dp)
+    ) {
         items(acteurs) { acteur ->
             Card(
                 modifier = Modifier
@@ -131,24 +146,21 @@ fun FavorisActeurs(viewModel: MainViewModel, navController: NavController) {
                 Column(
                     modifier = Modifier
                         .padding(0.dp)
+                        .background(Color.Black)
                         .fillMaxWidth()
                         .fillMaxHeight(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(modifier = Modifier.height(200.dp)) {
                         AsyncImage(
-                            model = (if (acteur.fiche.profile_path === null) {
-                                "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"
-                            } else {
-                                "https://image.tmdb.org/t/p/w500/${acteur.fiche.profile_path}"
-                            }),
+                            model = "https://image.tmdb.org/t/p/w500/${acteur.fiche.profile_path}",
                             contentDescription = null,
                             contentScale = ContentScale.Crop
                         )
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(12.dp),
+                                .padding(10.dp),
                             contentAlignment = Alignment.TopEnd
                         ) {
                             IconButton(
@@ -161,7 +173,7 @@ fun FavorisActeurs(viewModel: MainViewModel, navController: NavController) {
                                 }
                             ) {
                                 if (acteur.fiche.isFav || favActeurs.any { isFavActeur ->
-                                        isFavActeur.id == acteur.id;
+                                        isFavActeur.id == acteur.id
                                     }) {
                                     Icon(
                                         Icons.Filled.Favorite,
@@ -178,6 +190,19 @@ fun FavorisActeurs(viewModel: MainViewModel, navController: NavController) {
                             }
                         }
                     }
+                    Box(
+                        modifier = Modifier
+                            .height(100.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(0.dp)
+                                .fillMaxWidth()
+                                .fillMaxHeight(),
+
+                            verticalArrangement = Arrangement.SpaceAround
+                        ) {
                             Text(
                                 acteur.fiche.name,
                                 fontWeight = FontWeight.W900,
@@ -188,7 +213,8 @@ fun FavorisActeurs(viewModel: MainViewModel, navController: NavController) {
                                     .width(200.dp)
                                     .padding(2.dp),
                             )
-
+                        }
+                    }
                 }
             }
         }

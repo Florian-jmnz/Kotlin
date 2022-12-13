@@ -68,10 +68,9 @@ class MainActivity : ComponentActivity() {
                                         SearchView({it->viewModel.searchFilms(it)}, { showSearch = !showSearch })
                                     }
                                 }
-
                             }else{
                                 DefaultTopBar( { showSearch = !showSearch }, navController,currentDestination)
-                            };
+                            }
                         }
                     },
                     content = {
@@ -92,7 +91,7 @@ class MainActivity : ComponentActivity() {
                                 composable("detailFilm/{id}") {
                                         navBackStackEntry ->
                                     var id = navBackStackEntry.arguments?.getString("id")
-                                    DetailFilm(viewModel, navController, id!!)
+                                    DetailFilm(viewModel,windowSizeClass, id!!)
                                 }
                                 composable("favorites/films") {
                                     FavorisFilms(viewModel,navController)
@@ -104,17 +103,17 @@ class MainActivity : ComponentActivity() {
                                 composable("detailSerie/{id}") {
                                         navBackStackEntry ->
                                     var id = navBackStackEntry.arguments?.getString("id")
-                                    DetailSerie(viewModel, navController, id!!)
+                                    DetailSerie(viewModel, windowSizeClass, id!!)
                                 }
                                 composable("favorites/series") {
                                     FavorisSeries(viewModel,navController)
                                 }
 
                                 composable("acteurs") {
-                                    Acteurs(viewModel, navController)
+                                    Acteurs(viewModel)
                                 }
                                 composable("favorites/acteurs") {
-                                    FavorisActeurs(viewModel,navController)
+                                    FavorisActeurs(viewModel)
                                 }
                             }
                         }
@@ -229,7 +228,7 @@ fun SearchView(onSearch:(t:String) -> Unit, onToggleSearch: () -> Unit) {
 fun DefaultTopBar(onToggleSearch: () -> Unit, navController: NavController, currentDestination: NavDestination?) {
     TopAppBar(
         title = {
-            Text(text = "TMDB App")
+            Text(text = "TheMovieDB")
         },
         navigationIcon = {
             IconButton(onClick = { navController.popBackStack()
@@ -256,7 +255,7 @@ fun DefaultTopBar(onToggleSearch: () -> Unit, navController: NavController, curr
             ) {
                 Icon(
                     Icons.Filled.FavoriteBorder,
-                    contentDescription = "favorite page",
+                    contentDescription = "favorites",
                     modifier = Modifier
                         .padding(15.dp)
                         .size(24.dp)

@@ -1,8 +1,5 @@
 package com.example.tp1_appkotlin
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,13 +29,13 @@ fun nomPrenom() {
 
 @Composable
 fun contact(tel: String, mail: String) {
-    Row() {
+    Row {
         Icon(Icons.Rounded.Call, contentDescription = "Tel")
         Text(
             text = "  ${tel}",
         )
     }
-    Row() {
+    Row {
         Icon(Icons.Rounded.Email, contentDescription = "Email")
         Text(
             text = "  ${mail}",
@@ -90,7 +87,7 @@ fun ProfileScreen(windowClass: WindowSizeClass, navController: NavController) {
                         nomPrenom()
                         presentation()
                         Column(modifier = Modifier.padding(50.dp)) {
-                            contact("0634651934", "florian.jimenez@etu.iut-tlse3.fr")
+                            contact("06.34.65.19.34", "florian.jimenez@etu.iut-tlse3.fr")
                         }
                         monButton(navController)
                     }
